@@ -1,3 +1,5 @@
+/* jshint undef: true, unused: true */
+/* global module */
 module.exports = function (config) {
 	'use strict';
 
@@ -6,8 +8,7 @@ module.exports = function (config) {
 		files: [
 			'node_modules/angular/angular.js',
 			'node_modules/angular-mocks/angular-mocks.js',
-			'js/**/*.js',
-			'test/unit/**/*.js'
+			'js/**/*.js'
 		],
 		autoWatch: true,
 		singleRun: false,

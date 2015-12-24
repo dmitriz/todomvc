@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "test": "karma start test/config/karma.conf.js"
+    "test": "karma start",
+    "e2e": "concurrent \"gulp test-server\" \"cd ../../tests/;  mocha ../../tests/allTests.js --no-timeouts --reporter spec --framework=angularjs-componentized; cd ../examples/angularjs-componentized\""
   },
   "dependencies": {
     "angular": "^1.4.8",
@@ -10,6 +11,8 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.4.8",
+    "gulp": "^3.9.0",
+    "gulp-live-server": "0.0.29",
     "karma": "^0.13.15"
   }
 }
