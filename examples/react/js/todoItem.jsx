@@ -77,8 +77,13 @@ var app = app || {};
 
 		render: function () {
 			return (
+
+				// Would be nicer just to write `class` here as inside HTML
 				<li className={classNames({
 					completed: this.props.todo.completed,
+
+					// Editing should be a state of the component, 
+					// should not come from outside
 					editing: this.props.editing
 				})}>
 					<div className="view">
@@ -91,6 +96,8 @@ var app = app || {};
 						<label onDoubleClick={this.handleEdit}>
 							{this.props.todo.title}
 						</label>
+
+						// Calling external expression to remove the item
 						<button className="destroy" onClick={this.props.onDestroy} />
 					</div>
 					<input
@@ -99,6 +106,8 @@ var app = app || {};
 						value={this.state.editText}
 						onBlur={this.handleSubmit}
 						onChange={this.handleChange}
+
+						// Really need `onEscape`
 						onKeyDown={this.handleKeyDown}
 					/>
 				</li>

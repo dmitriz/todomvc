@@ -25,6 +25,7 @@ var app = app || {};
 			};
 		},
 
+		// Defining global routes inside the component looks leaky
 		componentDidMount: function () {
 			var setState = this.setState;
 			var router = Router({
@@ -39,6 +40,7 @@ var app = app || {};
 			this.setState({newTodo: event.target.value});
 		},
 
+		// This should be a method inside a dedicated component!
 		handleNewTodoKeyDown: function (event) {
 			if (event.keyCode !== ENTER_KEY) {
 				return;
@@ -102,6 +104,9 @@ var app = app || {};
 
 			var todoItems = shownTodos.map(function (todo) {
 				return (
+
+					// We only really need to update and receive updates for the `todo`, 
+					// the rest can be delegated to the TodoItem component
 					<TodoItem
 						key={todo.id}
 						todo={todo}

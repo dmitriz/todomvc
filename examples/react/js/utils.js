@@ -25,6 +25,7 @@ var app = app || {};
 			return count === 1 ? word : word + 's';
 		},
 
+		// should be separate Store service!
 		store: function (namespace, data) {
 			if (data) {
 				return localStorage.setItem(namespace, JSON.stringify(data));

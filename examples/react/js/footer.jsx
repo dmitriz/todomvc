@@ -13,6 +13,8 @@ var app = app || {};
 			var activeTodoWord = app.Utils.pluralize(this.props.count, 'item');
 			var clearButton = null;
 
+			// TodoFooter receives the count as prop
+			// and only shows clear button if it is positive
 			if (this.props.completedCount > 0) {
 				clearButton = (
 					<button

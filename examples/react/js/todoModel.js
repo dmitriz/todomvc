@@ -23,6 +23,7 @@ var app = app || {};
 		this.onChanges.push(onChange);
 	};
 
+	// Saving and calling event handlers
 	app.TodoModel.prototype.inform = function () {
 		Utils.store(this.key, this.todos);
 		this.onChanges.forEach(function (cb) { cb(); });
