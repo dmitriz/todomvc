@@ -1,0 +1,103 @@
+<section id="todoapp">
+
+	<!-- Initialize `header` object to hold properties specific to this component.
+		========================================================================== -->
+	<header id="header" ng-init="header = {}">
+		<h1>todos</h1>
+
+		<!-- On submit create new todo and push to the list,
+			 but only when the title is not empty.
+			 Note that Angular's ng-model trims its bound variable,
+			 so no need to `todoTitle.trim()`.
+			======================================================= -->
+		<form 
+			id="todo-form"
+			ng-submit="header.todoTitle.length && state.todos.push({title: header.todoTitle, completed: false}); header.todoTitle = ''"
+		>
+
+			<!-- Use `ng-model` for two-way data binding, 
+			     so we only need to read from the scope.
+			    =========================================  -->
+			<input id="new-todo" placeholder="What needs to be done?" ng-model="header.todoTitle" autofocus>
+		</form>
+	</header>
+
+	<section id="main" ng-show="state.todos.length" ng-cloak>
+
+		<!-- When checkbox is clicked, indicate it is taking over the controll
+			 by setting the toggleAll flag true.
+			 Here we need both update the checkbox and listen to the user interaction,
+			 so we carefully split the two-way binding into
+			 the `ng-checked` and `ng-click` properties.
+			 The `ng-checked` expression is evaluated on every Angular's digest cycle
+			 and updates the checkbox state,
+			 whereas the `ng-click` expression is evaluated on every click,
+			 and lauches a digest cycle.
+			========================================================================= -->
+		<input 
+			id="toggle-all" 
+			type="checkbox"
+			ng-checked="state.remainingCount === 0"
+			ng-click="state.allChecked = !state.allChecked; state.toggleAll = true;"
+		>
+		<label for="toggle-all">Mark all as complete</label>
+		<ul id="todo-list">
+
+			<!-- Angular's (in)famous filter "filter". :)
+				 Filter `state.todos` via the custom object depending on the location path.
+				 Dynamically adjust the class depending what todo is currently being edited.
+				======================================================================= -->
+			<todo-item ng-repeat="todo in state.todos | filter:{'/active': {completed: false}, '/completed': {completed: true}}[$location.path()] track by $index" 
+				ng-class="{completed: todo.completed, editing: todo === state.editedTodo}"
+			></todo-item>
+		</ul>
+	</section>
+
+	<footer id="footer" ng-show="state.todos.length" ng-cloak>
+		<span id="todo-count">
+			<strong>
+				{{ 
+					state.remainingCount = (state.todos | filter:{completed:false}).length
+				}}
+			</strong>
+			<ng-pluralize 
+				count="state.remainingCount" 
+				when="{ one: 'item left', other: 'items left' }"
+			></ng-pluralize>
+		</span>
+		<ul id="filters">
+			<li>
+				<a ng-class="{selected: $location.path() == ''} " href="#">All</a>
+			</li>
+			<li>
+				<a ng-class="{selected: $location.path() == '/active'}" href="#/active">Active</a>
+			</li>
+			<li>
+				<a ng-class="{selected: $location.path() == '/completed'}" href="#/completed">Completed</a>
+			</li>
+		</ul>
+
+		<!-- On click, we set the flag `clearCompletedTodos` to true.
+			 This kicks `ng-bind` listeners below removing all completed Todos.
+			 The expression of `ng-show` keeps evaluating until no more completed Todos remain,
+			 after which `clearCompletedTodos` is set back to false to stop the process.
+			===============================================================================  -->
+		<button 
+			id="clear-completed" 
+			ng-click="state.clearCompletedTodos = true"
+			ng-show="(state.todos | filter:{completed:true}).length || (state.clearCompletedTodos = false)"
+		>Clear completed</button>
+
+		<!-- This is how we can iterate over arrays without using loops or `forEach`
+			 as both loops and defining new functions are illegal in Angular's expressions.
+			 Instead we use hidden DOM elements to perform the removal one-by-one.
+			 That is still performant as the browser never needs to show these elements.
+			=============================================================================== -->
+		<div hidden>
+			<div 
+				ng-repeat="todo in state.todos"
+				ng-bind="state.clearCompletedTodos && todo.completed && state.todos.splice($index, 1)"
+			></div>
+		</div>
+	</footer>
+</section>

@@ -9,6 +9,7 @@
 	 * @type {angular.Module}
 	 */
 	angular.module('todomvc', [
+		'todoAppComp',
 		'todoItemComp',
 		'todoFocusDirective', 
 		'todoImportDirective',
