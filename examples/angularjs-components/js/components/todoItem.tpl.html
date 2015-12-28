@@ -1,0 +1,38 @@
+<li>
+	<div class="view">
+
+		<!-- If toggleAll = false, click toggles todo.completed  
+			 If toggleAll = true, click sets todo.completed = !allChecked 
+			 When clicked, we set toggleAll to false
+			 ng-checked expression is evaluated on any digest cycle, 
+			 so we update todo.completed
+			============================================================== -->
+		<input
+			class="toggle" 
+			type="checkbox"
+			ng-checked="todo.completed = (state.toggleAll ? state.allChecked : todo.completed)"
+			ng-click="todo.completed = !todo.completed; state.toggleAll = false"
+		>
+
+		<!-- On double click save a copy of the current title.
+			================================================= -->
+		<label 
+			ng-dblclick="state.originalTitle = todo.title; state.editedTodo = todo"
+		>{{todo.title}}</label>
+		<button class="destroy" ng-click="state.todos.splice($index, 1)"></button>
+
+	</div>
+
+	<!-- Angular automatically trims the `ng-model`'s variable. 
+		 If the title is empty after trimming, we remove the todo from the list.
+		 Special care is needed since the "blur" event is also fired 
+		 when the input element is closed programmatically.
+		======================================================================== -->
+	<form ng-submit="todo.title.length || state.todos.splice($index, 1); state.editedTodo = {}">
+		<input class="edit" 
+			ng-model="todo.title"
+			ng-blur="todo.title.length || state.todos.splice($index, 1); state.editedTodo = {}" 
+			ng-keydown="($event.keyCode === ESCAPE_KEY) && (todo.title = state.originalTitle) && (state.editedTodo = {})" 
+			todo-focus="todo === state.editedTodo">
+	</form>
+</li>
