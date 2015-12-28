@@ -8,11 +8,19 @@
 	/**
 	 * Directive that places focus on the element it is applied to when the expression it binds to evaluates to true
 	 */
-	.directive('todoItem', {
-	   	bindings: {
-	      //count: '='
-	    },
-	    //controller: 'CounterCtrl',
-	    templateUrl: 'todoItem.tpl.html'
+	// .component('todoItem', {
+	//    	bindings: {
+	//       //count: '='
+	//     },
+	//     //controller: 'CounterCtrl',
+	//     templateUrl: 'todoItem.tpl.html'
+	// });
+
+	.directive('todoItem', function(){
+		return {
+		    //controller: 'CounterCtrl',
+		    templateUrl: 'js/components/todoItem.tpl.html'
+		};
 	});
+
 })();
