@@ -187,6 +187,13 @@
 
 		<script src="node_modules/todomvc-common/base.js"></script>
 		<script src="node_modules/angular/angular.js"></script>
+
+		<!-- Angular v1.3+ back-port of 1.5's component() method http://voux.io
+			 https://github.com/toddmotto/angular-component
+
+	 		 _Note: you must include this script straight after angular.js and before your application code to ensure the component() method has been added to the angular.module global.
+		    ================================================================================= -->
+		<script src="node_modules/angular-component/dist/angular-component.js"></script>
 		<script src="js/app.js"></script>
 		<script src="js/services/todoStorage.js"></script>
 		<script src="js/directives/todoImportDirective.js"></script>

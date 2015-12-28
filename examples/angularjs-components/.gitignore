@@ -7,3 +7,6 @@ node_modules/todomvc-app-css
 
 node_modules/angular
 !node_modules/angular/angular.js
+
+node_modules/angular-component
+!node_modules/angular-component/dist/angular-component.js
